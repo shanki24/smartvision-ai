@@ -1,5 +1,5 @@
 import streamlit as st
-
+from pathlib import Path
 
 st.set_page_config(
     page_title="SmartVision AI",
@@ -7,7 +7,9 @@ st.set_page_config(
     layout="wide"
 )
 
-BANNER_PATH = r"C:\Users\Sujal\OneDrive\Desktop\coco_project\streamlit\streamlit_app\banner.png"
+BASE_DIR = Path(__file__).parent
+BANNER_PATH = BASE_DIR / "assets" / "demo_images" / "banner.png"
+
 st.image(BANNER_PATH, use_container_width=True)
 
 st.sidebar.title("📌 SmartVision AI")
