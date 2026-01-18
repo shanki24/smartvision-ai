@@ -21,15 +21,11 @@ st.markdown(
 DEVICE = torch.device("cpu")
 NUM_CLASSES = 29
 
-from pathlib import Path
-
-BASE_DIR = Path(__file__).parent.parent
-
 MODEL_PATHS = {
-    "VGG16": BASE_DIR / "models" / "vgg16_best.pth",
-    "ResNet50": BASE_DIR / "models" / "resnet50_best.pth",
-    "MobileNetV2": BASE_DIR / "models" / "mobilenetv2_best.pth",
-    "EfficientNetB0": BASE_DIR / "models" / "efficientnetb0_best.pth",
+    "VGG16": r"C:\Users\Sujal\OneDrive\Desktop\coco_project\vgg16_best.pth",
+    "ResNet50": r"C:\Users\Sujal\OneDrive\Desktop\coco_project\resnet50_best.pth",
+    "MobileNetV2": r"C:\Users\Sujal\OneDrive\Desktop\coco_project\mobilenetv2_best.pth",
+    "EfficientNetB0": r"C:\Users\Sujal\OneDrive\Desktop\coco_project\efficientnetb0_best.pth",
 }
 
 # =================================================
