@@ -4,6 +4,7 @@ import cv2
 import time
 import numpy as np
 from ultralytics import YOLO
+from pathlib import Path
 
 # =================================================
 # PAGE CONFIG
@@ -24,9 +25,8 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # =================================================
 # MODEL PATH
 # =================================================
-YOLO_WEIGHTS_PATH = (
-    r"C:\Users\Sujal\OneDrive\Desktop\coco_project\yolo_training\weights\best.pt"
-)
+BASE_DIR = Path(__file__).parent.parent
+YOLO_WEIGHTS_PATH = BASE_DIR / "weights" / "best.pt"
 
 # =================================================
 # LOAD MODEL
