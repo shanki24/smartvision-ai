@@ -2,7 +2,6 @@ import streamlit as st
 import torch
 import time
 import numpy as np
-from ultralytics import YOLO
 from pathlib import Path
 import os
 
@@ -12,20 +11,37 @@ import os
 st.set_page_config(layout="wide")
 st.title("📹 Live Webcam Object Detection (YOLOv8)")
 
+st.markdown(
+    "Real-time webcam-based object detection using a trained YOLOv8 model. "
+    "Displays bounding boxes, FPS, and latency."
+)
+
 # =================================================
-# STREAMLIT CLOUD CHECK
+# STREAMLIT CLOUD CHECK (CRITICAL)
 # =================================================
 IS_STREAMLIT_CLOUD = os.environ.get("STREAMLIT_RUNTIME") == "true"
 
 if IS_STREAMLIT_CLOUD:
     st.warning(
         "🚫 **Live webcam detection is not supported on Streamlit Cloud.**\n\n"
-        "✅ Please run this feature **locally** to access your webcam."
+        "✅ Please clone the repository and run this feature **locally** "
+        "to access your webcam."
+    )
+
+    st.info(
+        "**Why?**\n"
+        "- Streamlit Cloud has no physical webcam\n"
+        "- OpenCV GUI backends are not supported\n"
+        "- YOLO internally depends on OpenCV\n\n"
+        "✔ All other pages work perfectly on cloud."
     )
     st.stop()
 
-# Safe to import OpenCV ONLY locally
+# =================================================
+# LOCAL-ONLY IMPORTS (SAFE)
+# =================================================
 import cv2
+from ultralytics import YOLO
 
 # =================================================
 # DEVICE
@@ -69,10 +85,10 @@ frame_placeholder = st.empty()
 metrics_placeholder = st.empty()
 
 # =================================================
-# WEBCAM LOOP
+# WEBCAM LOOP (LOCAL ONLY)
 # =================================================
 if start_button:
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         st.error("❌ Cannot access webcam")
@@ -91,7 +107,7 @@ if start_button:
                 break
 
             # -----------------------------
-            # YOLO INFERENCE (NO COLOR CONVERSION)
+            # YOLO INFERENCE
             # -----------------------------
             start_infer = time.time()
 
@@ -104,10 +120,7 @@ if start_button:
 
             latency_ms = (time.time() - start_infer) * 1000
 
-            # YOLO returns BGR image
             annotated_frame = results[0].plot()
-
-            # ✅ SINGLE COLOR CONVERSION (BGR → RGB)
             annotated_frame = cv2.cvtColor(
                 annotated_frame, cv2.COLOR_BGR2RGB
             )
@@ -125,7 +138,7 @@ if start_button:
             frame_placeholder.image(
                 annotated_frame,
                 channels="RGB",
-                use_container_width=600
+                use_container_width=True
             )
 
             metrics_placeholder.markdown(
