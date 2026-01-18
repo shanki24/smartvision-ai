@@ -1,4 +1,3 @@
-# smartvision-ai
 ---
 title: SmartVision AI
 emoji: 🧠
