@@ -3,6 +3,7 @@ import torch
 from ultralytics import YOLO
 from PIL import Image
 import numpy as np
+from pathlib import Path
 
 # =================================================
 # PAGE CONFIG
@@ -21,9 +22,8 @@ st.markdown(
 # =================================================
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-YOLO_WEIGHTS_PATH = (
-    r"C:\Users\Sujal\OneDrive\Desktop\coco_project\yolo_training\weights\best.pt"
-)
+BASE_DIR = Path(__file__).parent.parent
+YOLO_WEIGHTS_PATH = BASE_DIR / "weights" / "best.pt"
 
 # =================================================
 # LOAD YOLO MODEL (CACHED)
