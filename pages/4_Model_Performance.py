@@ -19,7 +19,7 @@ st.markdown(
 # =================================================
 # PATH CONFIG
 # =================================================
-BASE_DIR = Path(r"C:\Users\Sujal\OneDrive\Desktop\coco_project")
+BASE_DIR = Path(__file__).parent.parent
 EVAL_DIR = BASE_DIR / "evaluation"
 
 MODELS = {
