@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 BASE_DIR = Path(__file__).parent
-BANNER_PATH = BASE_DIR / "assets" / "demo_images" / "banner.png"
+BANNER_PATH = BASE_DIR / "banner.png"
 
 st.image(BANNER_PATH, use_container_width=True)
 
