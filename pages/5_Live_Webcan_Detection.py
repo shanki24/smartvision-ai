@@ -1,9 +1,7 @@
 import streamlit as st
 import torch
 import time
-import numpy as np
 from pathlib import Path
-import os
 
 # =================================================
 # PAGE CONFIG
@@ -17,31 +15,35 @@ st.markdown(
 )
 
 # =================================================
-# STREAMLIT CLOUD CHECK (CRITICAL)
+# TRY LOCAL-ONLY IMPORTS
 # =================================================
-IS_STREAMLIT_CLOUD = os.environ.get("STREAMLIT_RUNTIME") == "true"
+try:
+    import cv2
+    from ultralytics import YOLO
+    OPENCV_AVAILABLE = True
+except Exception:
+    OPENCV_AVAILABLE = False
 
-if IS_STREAMLIT_CLOUD:
+# =================================================
+# STREAMLIT CLOUD FALLBACK
+# =================================================
+if not OPENCV_AVAILABLE:
     st.warning(
-        "🚫 **Live webcam detection is not supported on Streamlit Cloud.**\n\n"
-        "✅ Please clone the repository and run this feature **locally** "
-        "to access your webcam."
+        "🚫 **Live Webcam Detection is not available on Streamlit Cloud**\n\n"
+        "This feature requires:\n"
+        "- A physical webcam\n"
+        "- OpenCV system libraries (libGL)\n\n"
+        "✅ Please run this project **locally** to use webcam detection."
     )
 
     st.info(
-        "**Why?**\n"
-        "- Streamlit Cloud has no physical webcam\n"
-        "- OpenCV GUI backends are not supported\n"
-        "- YOLO internally depends on OpenCV\n\n"
-        "✔ All other pages work perfectly on cloud."
+        "**Good news:**\n"
+        "- Image Classification ✅\n"
+        "- Image Object Detection (YOLOv8) ✅\n"
+        "- Model Performance Dashboard ✅\n\n"
+        "All other features work perfectly on Streamlit Cloud."
     )
     st.stop()
-
-# =================================================
-# LOCAL-ONLY IMPORTS (SAFE)
-# =================================================
-import cv2
-from ultralytics import YOLO
 
 # =================================================
 # DEVICE
@@ -106,9 +108,6 @@ if start_button:
                 st.warning("⚠ Failed to read frame")
                 break
 
-            # -----------------------------
-            # YOLO INFERENCE
-            # -----------------------------
             start_infer = time.time()
 
             results = yolo_model(
@@ -125,16 +124,10 @@ if start_button:
                 annotated_frame, cv2.COLOR_BGR2RGB
             )
 
-            # -----------------------------
-            # FPS
-            # -----------------------------
             curr_time = time.time()
             fps = 1 / (curr_time - prev_time)
             prev_time = curr_time
 
-            # -----------------------------
-            # DISPLAY
-            # -----------------------------
             frame_placeholder.image(
                 annotated_frame,
                 channels="RGB",
