@@ -1,10 +1,10 @@
 import streamlit as st
 import torch
-import cv2
 import time
 import numpy as np
 from ultralytics import YOLO
 from pathlib import Path
+import os
 
 # =================================================
 # PAGE CONFIG
@@ -12,10 +12,20 @@ from pathlib import Path
 st.set_page_config(layout="wide")
 st.title("📹 Live Webcam Object Detection (YOLOv8)")
 
-st.markdown(
-    "Real-time webcam-based object detection using a trained YOLOv8 model. "
-    "Displays bounding boxes, FPS, and latency."
-)
+# =================================================
+# STREAMLIT CLOUD CHECK
+# =================================================
+IS_STREAMLIT_CLOUD = os.environ.get("STREAMLIT_RUNTIME") == "true"
+
+if IS_STREAMLIT_CLOUD:
+    st.warning(
+        "🚫 **Live webcam detection is not supported on Streamlit Cloud.**\n\n"
+        "✅ Please run this feature **locally** to access your webcam."
+    )
+    st.stop()
+
+# Safe to import OpenCV ONLY locally
+import cv2
 
 # =================================================
 # DEVICE
