@@ -57,7 +57,7 @@ if metrics_data:
 # =================================================
 # INFERENCE SPEED COMPARISON
 # =================================================
-st.header("⚡ Inference Speed (ms)")
+st.header("Inference Speed (ms)")
 
 speed_df = pd.DataFrame({
     model: df["inference_time_ms"].values[0]
