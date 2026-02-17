@@ -7,7 +7,7 @@ from pathlib import Path
 # PAGE CONFIG
 # =================================================
 st.set_page_config(layout="wide")
-st.title("📹 Live Webcam Object Detection (YOLOv8)")
+st.title("Live Webcam Object Detection (YOLOv8)")
 
 st.markdown(
     "Real-time webcam-based object detection using a trained YOLOv8 model. "
