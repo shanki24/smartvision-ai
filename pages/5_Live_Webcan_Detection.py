@@ -29,18 +29,18 @@ except Exception:
 # =================================================
 if not OPENCV_AVAILABLE:
     st.warning(
-        "🚫 **Live Webcam Detection is not available on Streamlit Cloud**\n\n"
+        "**Live Webcam Detection is not available on Streamlit Cloud**\n\n"
         "This feature requires:\n"
         "- A physical webcam\n"
         "- OpenCV system libraries (libGL)\n\n"
-        "✅ Please run this project **locally** to use webcam detection."
+        "Please run this project **locally** to use webcam detection."
     )
 
     st.info(
         "**Good news:**\n"
-        "- Image Classification ✅\n"
-        "- Image Object Detection (YOLOv8) ✅\n"
-        "- Model Performance Dashboard ✅\n\n"
+        "- Image Classification \n"
+        "- Image Object Detection (YOLOv8) \n"
+        "- Model Performance Dashboard \n\n"
         "All other features work perfectly on Streamlit Cloud."
     )
     st.stop()
@@ -77,8 +77,8 @@ conf_threshold = st.sidebar.slider(
     0.1, 1.0, 0.5, 0.05
 )
 
-start_button = st.sidebar.button("▶ Start Webcam")
-stop_button = st.sidebar.button("⏹ Stop Webcam")
+start_button = st.sidebar.button("Start Webcam")
+stop_button = st.sidebar.button("Stop Webcam")
 
 # =================================================
 # PLACEHOLDERS
@@ -93,9 +93,9 @@ if start_button:
     cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
-        st.error("❌ Cannot access webcam")
+        st.error("Cannot access webcam")
     else:
-        st.success("✅ Webcam started")
+        st.success("Webcam started")
 
         prev_time = time.time()
 
@@ -136,7 +136,7 @@ if start_button:
 
             metrics_placeholder.markdown(
                 f"""
-                **📊 Live Performance Metrics**
+                **Live Performance Metrics**
                 - **FPS:** `{fps:.2f}`
                 - **Latency:** `{latency_ms:.2f} ms/frame`
                 - **Device:** `{DEVICE.upper()}`
@@ -144,7 +144,7 @@ if start_button:
             )
 
         cap.release()
-        st.info("🛑 Webcam stopped")
+        st.info("Webcam stopped")
 
 else:
-    st.info("👈 Click **Start Webcam** to begin live detection")
+    st.info("Click **Start Webcam** to begin live detection")
