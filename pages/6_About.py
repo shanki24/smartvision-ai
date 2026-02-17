@@ -4,12 +4,12 @@ import streamlit as st
 # PAGE CONFIG
 # =================================================
 st.set_page_config(layout="wide")
-st.title("ℹ️ About This Project")
+st.title("About This Project")
 
 # =================================================
 # PROJECT OVERVIEW
 # =================================================
-st.header("📌 Project Overview")
+st.header("Project Overview")
 
 st.markdown(
     """
@@ -26,7 +26,7 @@ st.markdown(
 # =================================================
 # DATASET INFORMATION
 # =================================================
-st.header("📂 Dataset Information")
+st.header("Dataset Information")
 
 st.markdown(
     """
@@ -43,11 +43,11 @@ st.markdown(
 # =================================================
 # MODEL ARCHITECTURES
 # =================================================
-st.header("🧠 Model Architectures Used")
+st.header("Model Architectures Used")
 
 st.markdown(
     """
-    ### 🔹 Image Classification Models
+    ### Image Classification Models
     - **VGG16**
         - Deep CNN with stacked convolution layers
         - Strong baseline for visual feature extraction
@@ -61,7 +61,7 @@ st.markdown(
         - Compound scaling of depth, width, and resolution
         - Best accuracy-to-efficiency ratio
 
-    ### 🔹 Object Detection Model
+    ### Object Detection Model
     - **YOLOv8 (Ultralytics)**
         - Single-stage real-time object detector
         - High FPS with strong detection accuracy
@@ -72,7 +72,7 @@ st.markdown(
 # =================================================
 # TECHNICAL STACK
 # =================================================
-st.header("🛠️ Technical Stack")
+st.header("Technical Stack")
 
 st.markdown(
     """
@@ -102,7 +102,7 @@ st.markdown(
 # =================================================
 # PROJECT WORKFLOW
 # =================================================
-st.header("🔄 Project Workflow")
+st.header("Project Workflow")
 
 st.markdown(
     """
@@ -128,23 +128,23 @@ st.markdown(
 # =================================================
 # KEY FEATURES
 # =================================================
-st.header("✨ Key Features")
+st.header("Key Features")
 
 st.markdown(
     """
-    - 📸 Image Classification with multiple CNNs
-    - 🎯 Object Detection with YOLOv8
-    - 📊 Model Performance Dashboard
-    - 🎥 Live Webcam Object Detection
-    - ⚡ GPU-accelerated inference
-    - 🧩 Modular & scalable architecture
+    - Image Classification with multiple CNNs
+    - Object Detection with YOLOv8
+    - Model Performance Dashboard
+    - Live Webcam Object Detection
+    - GPU-accelerated inference
+    - Modular & scalable architecture
     """
 )
 
 # =================================================
 # DEVELOPER INFORMATION
 # =================================================
-st.header("👨‍💻 Developer Information")
+st.header("Developer Information")
 
 st.markdown(
     """
@@ -166,5 +166,5 @@ st.markdown(
 # =================================================
 st.markdown("---")
 st.markdown(
-    "🚀 *SmartVision AI — From Models to Real-Time Vision*"
+    "*SmartVision AI — From Models to Real-Time Vision*"
 )
