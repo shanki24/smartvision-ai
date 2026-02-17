@@ -9,7 +9,7 @@ from pathlib import Path
 # PAGE CONFIG
 # =================================================
 st.set_page_config(layout="wide")
-st.title("🎯 Object Detection (YOLOv8)")
+st.title("Object Detection (YOLOv8)")
 
 st.markdown(
     "Upload an image to perform **multi-object detection** using a trained "
@@ -78,7 +78,7 @@ if uploaded_file:
     # =================================================
     # DISPLAY IMAGE WITH BOUNDING BOXES
     # =================================================
-    st.subheader("🧠 Detection Results")
+    st.subheader("Detection Results")
 
     annotated_img = result.plot()  # numpy array (BGR)
     annotated_img = annotated_img[:, :, ::-1]  # BGR → RGB
@@ -89,7 +89,7 @@ if uploaded_file:
     # DISPLAY DETECTION DETAILS
     # =================================================
     if result.boxes is not None and len(result.boxes) > 0:
-        st.subheader("📋 Detected Objects")
+        st.subheader("Detected Objects")
 
         for i, box in enumerate(result.boxes):
             cls_id = int(box.cls[0].item())
@@ -103,4 +103,4 @@ if uploaded_file:
         st.warning("No objects detected at the selected confidence threshold.")
 
 else:
-    st.info("👆 Upload an image to start object detection.")
+    st.info("Upload an image to start object detection.")
