@@ -15,11 +15,13 @@ st.markdown(
 )
 
 # =================================================
-# TRY LOCAL-ONLY IMPORTS
+# IMPORTS (CLOUD COMPATIBLE)
 # =================================================
 try:
     import cv2
+    import av
     from ultralytics import YOLO
+    from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
     OPENCV_AVAILABLE = True
 except Exception:
     OPENCV_AVAILABLE = False
@@ -31,17 +33,8 @@ if not OPENCV_AVAILABLE:
     st.warning(
         "**Live Webcam Detection is not available on Streamlit Cloud**\n\n"
         "This feature requires:\n"
-        "- A physical webcam\n"
         "- OpenCV system libraries (libGL)\n\n"
-        "Please run this project **locally** to use webcam detection."
-    )
-
-    st.info(
-        "**Good news:**\n"
-        "- Image Classification \n"
-        "- Image Object Detection (YOLOv8) \n"
-        "- Model Performance Dashboard \n\n"
-        "All other features work perfectly on Streamlit Cloud."
+        "Please ensure dependencies are installed."
     )
     st.stop()
 
@@ -77,74 +70,51 @@ conf_threshold = st.sidebar.slider(
     0.1, 1.0, 0.5, 0.05
 )
 
-start_button = st.sidebar.button("Start Webcam")
-stop_button = st.sidebar.button("Stop Webcam")
-
 # =================================================
 # PLACEHOLDERS
 # =================================================
-frame_placeholder = st.empty()
 metrics_placeholder = st.empty()
 
 # =================================================
-# WEBCAM LOOP (LOCAL ONLY)
+# VIDEO PROCESSOR (WEBRTC)
 # =================================================
-if start_button:
-    cap = cv2.VideoCapture(0)
+class YOLOVideoProcessor(VideoProcessorBase):
 
-    if not cap.isOpened():
-        st.error("Cannot access webcam")
-    else:
-        st.success("Webcam started")
+    def recv(self, frame):
+        img = frame.to_ndarray(format="bgr24")
 
-        prev_time = time.time()
+        start_infer = time.time()
 
-        while cap.isOpened():
-            if stop_button:
-                break
+        results = yolo_model(
+            img,
+            conf=conf_threshold,
+            device=DEVICE,
+            verbose=False,
+        )
 
-            ret, frame = cap.read()
-            if not ret:
-                st.warning("⚠ Failed to read frame")
-                break
+        latency_ms = (time.time() - start_infer) * 1000
 
-            start_infer = time.time()
+        annotated_frame = results[0].plot()
 
-            results = yolo_model(
-                frame,
-                conf=conf_threshold,
-                device=DEVICE,
-                verbose=False,
-            )
+        metrics_placeholder.markdown(
+            f"""
+            **Live Performance Metrics**
+            - **Latency:** `{latency_ms:.2f} ms/frame`
+            - **Device:** `{DEVICE.upper()}`
+            """
+        )
 
-            latency_ms = (time.time() - start_infer) * 1000
+        return av.VideoFrame.from_ndarray(
+            annotated_frame,
+            format="bgr24"
+        )
 
-            annotated_frame = results[0].plot()
-            annotated_frame = cv2.cvtColor(
-                annotated_frame, cv2.COLOR_BGR2RGB
-            )
+# =================================================
+# WEBCAM STREAM (CLOUD COMPATIBLE)
+# =================================================
+webrtc_streamer(
+    key="yolo-live",
+    video_processor_factory=YOLOVideoProcessor,
+)
 
-            curr_time = time.time()
-            fps = 1 / (curr_time - prev_time)
-            prev_time = curr_time
-
-            frame_placeholder.image(
-                annotated_frame,
-                channels="RGB",
-                use_container_width=True
-            )
-
-            metrics_placeholder.markdown(
-                f"""
-                **Live Performance Metrics**
-                - **FPS:** `{fps:.2f}`
-                - **Latency:** `{latency_ms:.2f} ms/frame`
-                - **Device:** `{DEVICE.upper()}`
-                """
-            )
-
-        cap.release()
-        st.info("Webcam stopped")
-
-else:
-    st.info("Click **Start Webcam** to begin live detection")
+st.info("Allow camera access in your browser to start live detection.")
