@@ -9,7 +9,7 @@ from pathlib import Path
 # PAGE CONFIG
 # =================================================
 st.set_page_config(layout="wide")
-st.title("🖼 Image Classification")
+st.title("Image Classification")
 
 st.markdown(
     "Upload a **single-object image** and view predictions from "
@@ -120,12 +120,12 @@ uploaded_file = st.file_uploader(
 if uploaded_file:
     image = Image.open(uploaded_file).convert("RGB")
 
-    st.subheader("📸 Uploaded Image")
+    st.subheader("Uploaded Image")
     st.image(image, width="stretch")
 
     input_tensor = transform(image).unsqueeze(0)
 
-    st.subheader("📊 Model Predictions (Top-5)")
+    st.subheader("Model Predictions (Top-5)")
     cols = st.columns(4)
 
     for col, (model_name, model) in zip(cols, models_dict.items()):
@@ -143,4 +143,4 @@ if uploaded_file:
                     f"**{top5_prob[0][i].item() * 100:.2f}%**"
                 )
 else:
-    st.info("👆 Upload an image to start classification.")
+    st.info("Upload an image to start classification.")
