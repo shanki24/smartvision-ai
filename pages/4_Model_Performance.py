@@ -8,7 +8,7 @@ from pathlib import Path
 # PAGE CONFIG
 # =================================================
 st.set_page_config(layout="wide")
-st.title("📊 Model Performance Dashboard")
+st.title("Model Performance Dashboard")
 
 st.markdown(
     "This dashboard provides a **comparative performance analysis** of all "
@@ -44,7 +44,7 @@ for name, key in MODELS.items():
 # =================================================
 # MODEL COMPARISON – ACCURACY
 # =================================================
-st.header("📈 Accuracy Comparison")
+st.header("Accuracy Comparison")
 
 if metrics_data:
     acc_df = pd.DataFrame({
@@ -69,7 +69,7 @@ st.bar_chart(speed_df)
 # =================================================
 # MODEL SIZE COMPARISON
 # =================================================
-st.header("💾 Model Size (MB)")
+st.header("Model Size (MB)")
 
 size_df = pd.DataFrame({
     model: df["model_size_mb"].values[0]
@@ -81,7 +81,7 @@ st.bar_chart(size_df)
 # =================================================
 # CONFUSION MATRICES
 # =================================================
-st.header("🧮 Confusion Matrices")
+st.header("Confusion Matrices")
 
 cols = st.columns(2)
 
@@ -106,7 +106,7 @@ for i, (name, key) in enumerate(MODELS.items()):
 # =================================================
 # CLASS-WISE PERFORMANCE
 # =================================================
-st.header("📌 Class-wise Performance Breakdown")
+st.header("Class-wise Performance Breakdown")
 
 selected_model = st.selectbox(
     "Select Model",
