@@ -23,7 +23,8 @@ try:
     from ultralytics import YOLO
     from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
     OPENCV_AVAILABLE = True
-except Exception:
+except Exception as e:
+    st.error(f"Import error: {e}")
     OPENCV_AVAILABLE = False
 
 # =================================================
